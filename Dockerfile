@@ -1,8 +1,9 @@
 # Folosim imaginea oficiala PHP cu Apache
 FROM php:8.2-apache
 
-# Instalam extensiile necesare pentru MySQL
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+# Instalam Git si extensiile necesare
+RUN apt-get update && apt-get install -y git unzip zip \
+    && docker-php-ext-install pdo pdo_mysql mysqli
 
 # Instalam Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -14,7 +15,7 @@ COPY . /var/www/html/
 WORKDIR /var/www/html
 
 # Instalam dependentele Composer
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
 # Permisiuni pentru folderul de imagini
 RUN chmod -R 777 /var/www/html/assets/images/products/
