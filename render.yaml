@@ -2,5 +2,5 @@ services:
   - type: web
     name: aurafarmingro
     env: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./DockerFile
     region: frankfurt
