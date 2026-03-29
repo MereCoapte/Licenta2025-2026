@@ -36,93 +36,12 @@ $recentProducts = $pdo->query("SELECT p.*, c.name as category_name
     <title>Admin Dashboard - MarketHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background: #1a1a2e;
-            width: 240px;
-            position: fixed;
-            top: 0; left: 0;
-            padding-top: 20px;
-            z-index: 100;
-        }
-        .sidebar .nav-link {
-            color: #aaa;
-            padding: 12px 24px;
-            border-radius: 0;
-            transition: all 0.2s;
-        }
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            color: #fff;
-            background: rgba(255,255,255,0.08);
-            border-left: 3px solid #e84700;
-        }
-        .sidebar .brand {
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            padding: 0 24px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 10px;
-        }
-        .main-content {
-            margin-left: 240px;
-            padding: 30px;
-            background: #f8f9fa;
-            min-height: 100vh;
-        }
-        .stat-card {
-            border: none;
-            border-radius: 12px;
-            padding: 24px;
-            color: white;
-            transition: transform 0.2s;
-        }
-        .stat-card:hover { transform: translateY(-3px); }
-        .stat-card .stat-icon {
-            font-size: 36px;
-            opacity: 0.8;
-        }
-        .stat-card .stat-number {
-            font-size: 32px;
-            font-weight: 800;
-        }
-    </style>
+    <?php require_once 'admin-style.php'; ?>
 </head>
 <body>
 
 <!-- ── Sidebar ─────────────────────────────────────────── -->
-<div class="sidebar">
-    <div class="brand">
-        🛍️ MarketHub<br>
-        <small style="font-size:11px; color:#aaa; font-weight:400;">Panoul Admin</small>
-    </div>
-    <nav class="nav flex-column">
-        <a href="dashboard.php" class="nav-link active">
-            <i class="fas fa-home me-2"></i> Dashboard
-        </a>
-        <a href="products.php" class="nav-link">
-            <i class="fas fa-box me-2"></i> Produse
-        </a>
-        <a href="add-product.php" class="nav-link">
-            <i class="fas fa-plus me-2"></i> Adauga Produse
-        </a>
-        <a href="orders.php" class="nav-link">
-            <i class="fas fa-shopping-bag me-2"></i> Comenzi
-        </a>
-        <a href="users.php" class="nav-link">
-            <i class="fas fa-users me-2"></i> Utilizatorii
-        </a>
-        <hr style="border-color:rgba(255,255,255,0.1); margin: 10px 24px;">
-        <a href="../index.php" class="nav-link">
-            <i class="fas fa-store me-2"></i> Afiseaza magazinul
-        </a>
-        <a href="../logout.php" class="nav-link text-danger">
-            <i class="fas fa-sign-out-alt me-2"></i> Iesi de pe Cont
-        </a>
-    </nav>
-</div>
+<?php require_once 'sidebar.php'; ?>
 
 <!-- ── Main Content ────────────────────────────────────── -->
 <div class="main-content">
