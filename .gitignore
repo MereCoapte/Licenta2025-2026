@@ -1,12 +1,9 @@
 .env
-
 vendor/
-
 assets/images/products/*.jpg
 assets/images/products/*.jpeg
 assets/images/products/*.png
 assets/images/products/*.gif
 assets/images/products/*.webp
-
 .DS_Store
 Thumbs.db
