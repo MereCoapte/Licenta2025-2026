@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Shopping Cart";
-require_once 'includes/header.php';
+session_start();
+require_once 'includes/db.php';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -66,6 +66,10 @@ if(!empty($_SESSION['cart'])) {
         $total += $item['price'] * $item['qty'];
     }
 }
+
+$pageTitle = "Cosul Meu";
+require_once 'includes/header.php';
+
 ?>
 
 <h2 class="fw-bold mb-4">🛒 Cosul Tau</h2>

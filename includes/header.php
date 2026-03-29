@@ -27,7 +27,7 @@ $cats = $pdo->query("SELECT * FROM categories")->fetchAll();
 <body>
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="link-light navbar-brand fw-bold" href="/Ecommerce_site/index.php">
+    <a class="link-light navbar-brand fw-bold" href="<?= BASE_URL ?>index.php">
       <i class="fas fa-store me-2"></i>MarketHub
     </a>
     <!-- Search Bar-ul -->
@@ -55,10 +55,10 @@ $cats = $pdo->query("SELECT * FROM categories")->fetchAll();
           <i class="fas fa-user me-1"></i>
           <?= htmlspecialchars($_SESSION['user_name']) ?>
         </a>
-        <a href="/Ecommerce_site/logout.php" class="btn btn-sm btn-dark text-light">Iesi de pe Cont</a>
+        <a href="<?= BASE_URL ?>logout.php" class="btn btn-sm btn-dark text-light">Iesi de pe Cont</a>
       <?php else: ?>
-        <a href="/Ecommerce_site/login.php" class="btn btn-sm btn-light text-dark">Intra in Cont</a>
-        <a href="/Ecommerce_site/register.php" class="btn btn-sm btn-secondary">Cont nou</a>
+        <a href="<?= BASE_URL ?>login.php" class="btn btn-sm btn-light text-dark">Intra in Cont</a>
+        <a href="<?= BASE_URL ?>register.php" class="btn btn-sm btn-secondary">Cont nou</a>
       <?php endif; ?>
     </div>
   </div>
