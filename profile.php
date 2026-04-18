@@ -131,6 +131,10 @@ $orders = $stmt->fetchAll();
                     </div>
                     <div class="mt-2 small text-muted">
                         📍 <?= htmlspecialchars($order['address']) ?>
+                        <a href="../factura.php?id=<?= $comanda['id'] ?>" 
+   class="btn btn-sm btn-outline-warning" target="_blank">
+    <i class="fas fa-file-invoice"></i> Factura
+</a>
                     </div>
                 </div>
             </div>

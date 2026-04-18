@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Checkout";
-require_once 'includes/header.php';
+session_start();
+require_once 'includes/db.php';
 require_once 'includes/auth_check.php';
 
 // Trebuie sa fie logat
@@ -63,6 +63,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+$pageTitle = "Checkout";
+require_once 'includes/header.php';
 ?>
 
 <div class="row g-5">

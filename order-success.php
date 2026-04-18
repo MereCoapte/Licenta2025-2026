@@ -41,6 +41,10 @@ if(!$order) {
         <a href="index.php" class="btn btn-outline-dark px-4">
             Continua cumparaturile!
         </a>
+        <a href="factura.php?id=<?= $_GET['id'] ?>" 
+        class="btn btn-outline-dark" target="_blank">
+            <i class="fas fa-file-invoice me-2"></i>Descarca Factura
+        </a>
     </div>
 </div>
 
