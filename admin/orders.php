@@ -79,6 +79,7 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
                         <div class="fw-semibold"><?= htmlspecialchars($order['user_name']) ?></div>
                         <small class="text-muted"><?= htmlspecialchars($order['email']) ?></small>
                     </td>
+                    
                     <td class="align-middle small">
                         <?= htmlspecialchars($order['address']) ?>
                     </td>
@@ -97,13 +98,17 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
                         <form method="POST" class="d-flex gap-1">
                             <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                             <select name="status" class="form-select form-select-sm">
-                                <option value="pending"    <?= $order['status']==='pending'    ? 'selected':'' ?>>Pending</option>
-                                <option value="processing" <?= $order['status']==='processing' ? 'selected':'' ?>>Processing</option>
-                                <option value="shipped"    <?= $order['status']==='shipped'    ? 'selected':'' ?>>Shipped</option>
-                                <option value="delivered"  <?= $order['status']==='delivered'  ? 'selected':'' ?>>Delivered</option>
+                                <option value="pending"    <?= $order['status']==='pending'    ? 'selected':'' ?>>În asteptare</option>
+                                <option value="processing" <?= $order['status']==='processing' ? 'selected':'' ?>>În procesare</option>
+                                <option value="shipped"    <?= $order['status']==='shipped'    ? 'selected':'' ?>>Expediat</option>
+                                <option value="delivered"  <?= $order['status']==='delivered'  ? 'selected':'' ?>>Livrat</option>
                             </select>
                             <button type="submit" class="btn btn-sm btn-dark">✓</button>
                         </form>
+                        <a href="../factura.php?id=<?= $order['id'] ?>" 
+                        class="btn btn-sm btn-outline-warning" target="_blank">
+                            <i class="fas fa-file-invoice"></i> Factura
+                        </a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

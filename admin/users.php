@@ -49,107 +49,11 @@ $users = $pdo->query("
     <title>Utilizatori - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body { background: #f0f2f5; }
-        .sidebar {
-            min-height: 100vh;
-            background: #1a1a2e;
-            width: 240px;
-            position: fixed;
-            top: 0; left: 0;
-            padding-top: 20px;
-            z-index: 100;
-        }
-        .sidebar .brand {
-            color: white;
-            font-size: 17px;
-            font-weight: 700;
-            padding: 0 24px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            margin-bottom: 10px;
-        }
-        .sidebar .nav-link {
-            color: #aaa;
-            padding: 11px 24px;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            color: #fff;
-            background: rgba(255,255,255,0.06);
-            border-left-color: #e84700;
-        }
-        .sidebar .nav-link i { width: 20px; }
-        .main-content {
-            margin-left: 240px;
-            padding: 28px 32px;
-            min-height: 100vh;
-        }
-        .table-card {
-            background: white;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-        }
-        .table th {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #888;
-            font-weight: 600;
-        }
-        .table td { vertical-align: middle; font-size: 13.5px; }
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 14px;
-        }
-    </style>
+    <?php require_once 'admin-style.php'; ?>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <div class="brand">
-        <div>MarketHub<br>
-        <small style="font-size:10px; color:#aaa; font-weight:400;">Panou Admin</small></div>
-    </div>
-    <nav class="nav flex-column mt-2">
-        <a href="dashboard.php" class="nav-link">
-            <i class="fas fa-home"></i> Dashboard
-        </a>
-        <a href="products.php" class="nav-link">
-            <i class="fas fa-box"></i> Produse
-        </a>
-        <a href="add-product.php" class="nav-link">
-            <i class="fas fa-plus"></i> Adauga Produs
-        </a>
-        <a href="orders.php" class="nav-link">
-            <i class="fas fa-shopping-bag"></i> Comenzi
-        </a>
-        <a href="users.php" class="nav-link active">
-            <i class="fas fa-users"></i> Utilizatori
-        </a>
-        <hr style="border-color:rgba(255,255,255,0.08); margin:12px 20px;">
-        <a href="../index.php" class="nav-link">
-            <i class="fas fa-store"></i> Vezi magazinul
-        </a>
-        <a href="../logout.php" class="nav-link" style="color:#ff6b6b;">
-            <i class="fas fa-sign-out-alt"></i> Iesi din cont
-        </a>
-    </nav>
-</div>
-
-<!-- Main Content -->
+<?php require_once 'sidebar.php'; ?>
 <div class="main-content">
 
     <div class="d-flex justify-content-between align-items-center mb-4">

@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+require_once 'includes/db.php';
+if(!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
 $pageTitle = "My Profile";
 require_once 'includes/header.php';
 require_once 'includes/auth_check.php';
@@ -131,6 +139,10 @@ $orders = $stmt->fetchAll();
                     </div>
                     <div class="mt-2 small text-muted">
                         📍 <?= htmlspecialchars($order['address']) ?>
+                        <a href="factura.php?id=<?= $order['id'] ?>" 
+                        class="btn btn-sm btn-outline-warning ms-2" target="_blank">
+                            <i class="fas fa-file-invoice"></i> Factura
+                        </a>
                     </div>
                 </div>
             </div>
