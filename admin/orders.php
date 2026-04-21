@@ -2,27 +2,45 @@
 session_start();
 require_once '../includes/db.php';
 
-if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header('Location: ../login.php');
     exit;
 }
 
-// Update order status
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
-    $stmt = $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?");
-    $stmt->execute([$_POST['status'], $_POST['order_id']]);
+// Update status + tracking history
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
+    $newStatus = $_POST['status'];
+    $orderId   = (int)$_POST['order_id'];
+
+    $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?")
+        ->execute([$newStatus, $orderId]);
+
+    $statusNotes = [
+        'pending'    => 'Comanda in asteptare.',
+        'processing' => 'Comanda a fost preluata si se proceseaza.',
+        'shipped'    => 'Comanda a fost expediata.',
+        'delivered'  => 'Comanda a fost livrata cu succes.',
+    ];
+    $pdo->prepare("INSERT INTO order_status_history (order_id, status, note) VALUES (?, ?, ?)")
+        ->execute([$orderId, $newStatus, $statusNotes[$newStatus] ?? 'Status actualizat.']);
+
     header('Location: orders.php?updated=1');
     exit;
 }
 
-// Fetch all orders
-$orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
-                        FROM orders o
-                        LEFT JOIN users u ON o.user_id = u.id
-                        ORDER BY o.created_at DESC")->fetchAll();
+// Fetch all orders — JOIN cu users si guest fallback
+$orders = $pdo->query("
+    SELECT 
+        o.*,
+        u.name  AS user_name,
+        u.email AS user_email
+    FROM orders o
+    LEFT JOIN users u ON o.user_id = u.id
+    ORDER BY o.created_at DESC
+")->fetchAll();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,16 +57,18 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
 
     <h3 class="fw-bold mb-4">Manageriaza comenzile</h3>
 
-    <?php if(isset($_GET['updated'])): ?>
-        <div class="alert alert-success">Update la statusul comenzii!</div>
+    <?php if (isset($_GET['updated'])): ?>
+        <div class="alert alert-success alert-dismissible fade show">
+            Status comanda actualizat!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     <?php endif; ?>
 
-    <?php if(count($orders) === 0): ?>
+    <?php if (count($orders) === 0): ?>
         <div class="text-center py-5">
             <h5 class="text-muted">Inca nicio comanda.</h5>
         </div>
     <?php else: ?>
-
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
             <table class="table table-hover mb-0">
@@ -64,7 +84,7 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach($orders as $order):
+                <?php foreach ($orders as $order):
                     $badges = [
                         'pending'    => 'warning',
                         'processing' => 'info',
@@ -72,17 +92,31 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
                         'delivered'  => 'success'
                     ];
                     $badge = $badges[$order['status']] ?? 'secondary';
+
+                    // Afisam datele userului sau ale guestului
+                    $isGuest   = is_null($order['user_id']);
+                    $clientName  = $isGuest
+                        ? ($order['guest_name']  ?? 'Guest')
+                        : ($order['user_name']   ?? 'N/A');
+                    $clientEmail = $isGuest
+                        ? ($order['guest_email'] ?? '—')
+                        : ($order['user_email']  ?? '—');
                 ?>
                 <tr>
-                    <td class="align-middle"><?= $order['id'] ?></td>
+                    <td class="align-middle fw-bold"><?= $order['id'] ?></td>
                     <td class="align-middle">
-                        <div class="fw-semibold"><?= htmlspecialchars($order['user_name']) ?></div>
-                        <small class="text-muted"><?= htmlspecialchars($order['email']) ?></small>
+                        <div class="fw-semibold">
+                            <?= htmlspecialchars($clientName) ?>
+                            <?php if ($isGuest): ?>
+                                <span class="badge bg-secondary ms-1" style="font-size:10px;">Guest</span>
+                            <?php endif; ?>
+                        </div>
+                        <small class="text-muted"><?= htmlspecialchars($clientEmail) ?></small>
+                        <?php if ($isGuest && !empty($order['guest_phone'])): ?>
+                            <br><small class="text-muted">📞 <?= htmlspecialchars($order['guest_phone']) ?></small>
+                        <?php endif; ?>
                     </td>
-                    
-                    <td class="align-middle small">
-                        <?= htmlspecialchars($order['address']) ?>
-                    </td>
+                    <td class="align-middle small"><?= htmlspecialchars($order['address']) ?></td>
                     <td class="align-middle fw-bold text-danger">
                         <?= number_format($order['total'], 2) ?> RON
                     </td>
@@ -95,7 +129,7 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
                         </span>
                     </td>
                     <td class="align-middle">
-                        <form method="POST" class="d-flex gap-1">
+                        <form method="POST" class="d-flex gap-1 mb-1">
                             <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                             <select name="status" class="form-select form-select-sm">
                                 <option value="pending"    <?= $order['status']==='pending'    ? 'selected':'' ?>>În asteptare</option>
@@ -105,9 +139,9 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
                             </select>
                             <button type="submit" class="btn btn-sm btn-dark">✓</button>
                         </form>
-                        <a href="../factura.php?id=<?= $order['id'] ?>" 
-                        class="btn btn-sm btn-outline-warning" target="_blank">
-                            <i class="fas fa-file-invoice"></i> Factura
+                        <a href="../factura.php?id=<?= $order['id'] ?>"
+                           class="btn btn-sm btn-outline-warning w-100" target="_blank">
+                            <i class="fas fa-file-invoice me-1"></i>Factura
                         </a>
                     </td>
                 </tr>
@@ -117,6 +151,7 @@ $orders = $pdo->query("SELECT o.*, u.name as user_name, u.email
         </div>
     </div>
     <?php endif; ?>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

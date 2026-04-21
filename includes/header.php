@@ -13,6 +13,13 @@ if(isset($_SESSION['cart'])) {
     }
 }
 
+$wishlistCount = 0;
+if (isset($_SESSION['user_id'])) {
+    $wCount = $pdo->prepare("SELECT COUNT(*) FROM wishlist WHERE user_id = ?");
+    $wCount->execute([$_SESSION['user_id']]);
+    $wishlistCount = (int)$wCount->fetchColumn();
+}
+
 // Extrage categoriile din navbar
 $cats = $pdo->query("SELECT * FROM categories")->fetchAll();
 ?>
@@ -42,41 +49,43 @@ $cats = $pdo->query("SELECT * FROM categories")->fetchAll();
     </form>
     <!-- Link-urile din NavBar (Cosul de cumparaturi/ Panoul Admin/ Login&Register/ Logout) -->
     <div class="d-flex align-items-center gap-3">
-      <a href="cart.php" class="text-white position-relative">
-        <i class="fas fa-shopping-cart fa-lg"></i>
-        <?php if($cartCount > 0): ?>
-          <span class="position-sticky top-0 start-100 badge rounded-pill bg-danger">
+     <?php if (isset($_SESSION['user_id'])): ?>
+       <a href="wishlist.php" class="text-white position-relative" title="Produsele mele favorite">
+        <i class="fas fa-heart fa-lg"></i>
+        <?php if ($wishlistCount > 0): ?>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  id="wishlist-count" style="font-size:10px;">
+                <?= $wishlistCount ?>
+            </span>
+        <?php else: ?>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  id="wishlist-count" style="font-size:10px; display:none;">0</span>
+        <?php endif; ?>
+      </a>
+<?php endif; ?>
+
+  <a href="cart.php" class="text-white position-relative">
+    <i class="fas fa-shopping-cart fa-lg"></i>
+      <?php if ($cartCount > 0): ?>
+        <span class="position-sticky top-0 start-100 badge rounded-pill bg-danger">
             <?= $cartCount ?>
-          </span>
-        <?php endif; ?>
-      </a>
-      <?php if(isset($_SESSION['user_id'])): ?>
-        <?php if($_SESSION['role'] === 'admin'): ?>
-          <a href="admin\dashboard.php" class="btn btn-sm btn-warning me-2">⚙️ Panoul Admin</a>
-        <?php endif; ?>
-        <a href="profile.php" class="text-white text-decoration-none me-2">
-          <i class="fas fa-user me-1"></i>
-          <?= htmlspecialchars($_SESSION['user_name']) ?>
-        </a>
-        <a href="<?= BASE_URL ?>logout.php" class="btn btn-sm btn-dark text-light">Iesi de pe Cont</a>
-      <?php else: ?>
-        <a href="<?= BASE_URL ?>login.php" class="btn btn-sm btn-light text-dark">Intra in Cont</a>
-        <a href="<?= BASE_URL ?>register.php" class="btn btn-sm btn-secondary">Cont nou</a>
+        </span>
       <?php endif; ?>
-    </div>
-  </div>
-</nav>
-<!-- Bar-ul de Categorii -->
-<div id="bar_category" class="py-2">
-  <div class="container d-flex gap-3">
-    <a href="products.php" id="products_buttons" class="text-white text-decoration-none small">Toate Produsele</a>
-    <?php foreach($cats as $cat): ?>
-      <a href="products.php?category=<?= $cat['id'] ?>"
-         id="products_buttons"
-         class="text-white text-decoration-none small">
-        <?= htmlspecialchars($cat['name']) ?>
+  </a>
+ 
+  <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if ($_SESSION['role'] === 'admin'): ?>
+      <a href="admin/dashboard.php" class="btn btn-sm btn-warning me-2">⚙️ Panoul Admin</a>
+    <?php endif; ?>
+      <a href="profile.php" class="text-white text-decoration-none me-2">
+        <i class="fas fa-user me-1"></i>
+          <?= htmlspecialchars($_SESSION['user_name']) ?>
       </a>
-    <?php endforeach; ?>
-  </div>
-</div>
+      <a href="<?= BASE_URL ?>logout.php" class="btn btn-sm btn-dark text-light">Iesi de pe Cont</a>
+  <?php else: ?>
+    <a href="<?= BASE_URL ?>login.php" class="btn btn-sm btn-light text-dark">Intra in Cont</a>
+    <a href="<?= BASE_URL ?>register.php" class="btn btn-sm btn-secondary">Cont nou</a>
+  <?php endif; ?>
+ </div>
+</nav>
 <main class="container my-4">

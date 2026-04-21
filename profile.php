@@ -144,6 +144,10 @@ $orders = $stmt->fetchAll();
                             <i class="fas fa-file-invoice"></i> Factura
                         </a>
                     </div>
+                        <a href="order-tracking.php?id=<?= $order['id'] ?>" 
+                        class="btn btn-sm btn-outline-dark ms-2">
+                            <i class="fas fa-map-marker-alt me-1"></i>Urmărește Comanda
+                        </a>
                 </div>
             </div>
 

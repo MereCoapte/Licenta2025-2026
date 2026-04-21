@@ -198,8 +198,8 @@ require_once 'includes/header.php';
                         </a>
                     <?php else: ?>
                         <!-- Not logged in — prompt to login -->
-                        <a href="login.php" class="btn btn-dark w-100 py-2">
-                            Conectati-va la Checkout →
+                        <a href="checkout.php" class="btn btn-dark w-100 py-2">
+                            Finalizeaza Cumparaturile →
                         </a>
                         <p class="text-muted text-center small mt-2">
                             Ai nevoie de un cont pentru a putea plasa comanda!

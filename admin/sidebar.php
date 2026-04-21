@@ -27,7 +27,15 @@
             <a href="products.php" class="nav-link <?= $currentPage === 'products.php' ? 'active' : '' ?>">
                 <i class="fas fa-box"></i> Produse
             </a>
-            <a href="add-product.php" class="nav-link <?= $currentPage === 'add-product.php' ? 'active' : '' ?>">
+            <a href="reviews.php" class="nav-link <?= $currentPage === 'reviews.php' ? 'active' : '' ?>">
+            <i class="fas fa-star"></i> Review-uri
+                <?php
+                $nrPending = $pdo->query("SELECT COUNT(*) FROM reviews WHERE status='pending'")->fetchColumn();
+                if($nrPending > 0): ?>
+                    <span class="badge bg-warning text-dark ms-1"><?= $nrPending ?></span>
+                <?php endif; ?>
+            </a>
+                <a href="add-product.php" class="nav-link <?= $currentPage === 'add-product.php' ? 'active' : '' ?>">
                 <i class="fas fa-plus"></i> Adauga Produs
             </a>
             <a href="orders.php" class="nav-link <?= $currentPage === 'orders.php' ? 'active' : '' ?>">
@@ -35,6 +43,9 @@
             </a>
             <a href="users.php" class="nav-link <?= $currentPage === 'users.php' ? 'active' : '' ?>">
                 <i class="fas fa-users"></i> Utilizatori
+            </a>
+            <a href="coupons.php" class="nav-link <?= $currentPage === 'coupons.php' ? 'active' : '' ?>">
+                <i class="fas fa-tag"></i> Cupoane
             </a>
             <hr style="border-color:rgba(255,255,255,0.08); margin:12px 20px;">
             <a href="../index.php" class="nav-link">
