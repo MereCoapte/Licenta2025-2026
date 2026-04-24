@@ -12,7 +12,7 @@ $products = $stmt->fetchAll();
 <!-- Banner-ul informatii -->
 <div class="hero-banner p-5 mb-4 rounded-3">
   <div class="container-fluid py-3">
-    <h1 class="display-5 fw-bold hero-title text-light">Bunvenit la MarketHub</h1>
+    <h1 class="display-5 fw-bold hero-title text-light">Bun-venit la MarketHub</h1>
     <p class="col-md-8 fs-4 hero-subtitle text-light">Descopera produsele pe care le avem!</p>
     <a href="products.php" class="btn btn-dark btn-lg hero-btn">
       <i class="fas fa-shopping-bag me-2"></i>Cumpara Acum :D

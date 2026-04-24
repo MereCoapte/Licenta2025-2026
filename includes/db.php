@@ -15,9 +15,12 @@ $pass   = $_ENV['DB_PASS']  ?? getenv('DB_PASS')  ?? '';
 define('BASE_URL', $_ENV['BASE_URL'] ?? getenv('BASE_URL') ?? '/Ecommerce_site/');
 try {
     $pdo = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8",
-        $user,
-        $pass
+    'mysql:host=' . getenv('DB_HOST') . 
+    ';dbname=' . getenv('DB_NAME') . 
+    ';port=' . getenv('DB_PORT') . 
+    ';charset=utf8mb4',
+    getenv('DB_USER'),
+    getenv('DB_PASS')
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
