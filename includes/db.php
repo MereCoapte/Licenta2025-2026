@@ -10,6 +10,7 @@ if(file_exists(__DIR__ . '/../.env')) {
 $host   = $_ENV['DB_HOST']  ?? getenv('DB_HOST')  ?? 'localhost';
 $dbname = $_ENV['DB_NAME']  ?? getenv('DB_NAME')  ?? 'ecommerce';
 $user   = $_ENV['DB_USER']  ?? getenv('DB_USER')  ?? 'root';
+$port   = $_ENV['DB_USER']  ?? getenv('DB_PORT')  ?? '';
 $pass   = $_ENV['DB_PASS']  ?? getenv('DB_PASS')  ?? '';
 
 define('BASE_URL', $_ENV['BASE_URL'] ?? getenv('BASE_URL') ?? '/Ecommerce_site/');
