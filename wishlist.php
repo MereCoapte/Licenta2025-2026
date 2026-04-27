@@ -74,7 +74,12 @@ require_once 'includes/header.php';
 <!-- Container produse -->
 <div id="wishlistContainer">
     <?php if (empty($wishlistItems)): ?>
-        <?php include 'includes/wishlist_empty.php'; // partial refolosibil ?>
+        <div class="text-center py-5">
+            <div style="font-size:80px;">🤍</div>
+            <h4 class="text-muted mt-3">Nu ai niciun produs salvat încă.</h4>
+            <p class="text-muted">Apasă iconița ❤️ pe orice produs pentru a-l salva aici.</p>
+            <a href="<?= BASE_URL ?>products.php" class="btn btn-dark mt-2">Explorează Produsele</a>
+        </div>
     <?php else: ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="wishlistGrid">
             <?php foreach ($wishlistItems as $product): ?>

@@ -97,7 +97,7 @@ require_once 'includes/header.php';
                                 background:#e9ecef;z-index:0;border-radius:2px;">
                         <div style="height:100%;border-radius:2px;background:#198754;
                                     width:<?= ($currentIdx / (count($steps) - 1)) * 100 ?>%;
-                                    transition:width .5s;"></div>
+                                    transition:width 0.5s;"></div>
                     </div>
 
                     <?php foreach ($steps as $key => $step):
@@ -111,7 +111,7 @@ require_once 'includes/header.php';
                              style="width:42px;height:42px;
                                     background:<?= $done ? $step['color'] : '#e9ecef' ?>;
                                     <?= $current ? 'box-shadow:0 0 0 4px ' . $step['color'] . '44;' : '' ?>
-                                    transition:all .3s;">
+                                    transition:all 0.3s;">
                             <i class="<?= $step['icon'] ?>"
                                style="color:<?= $done ? '#fff' : '#aaa' ?>; font-size:16px;"></i>
                         </div>

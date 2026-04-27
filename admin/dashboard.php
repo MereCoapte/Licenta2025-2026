@@ -133,7 +133,7 @@ $recentProducts = $pdo->query("SELECT p.*, c.name as category_name
                         <?php foreach($recentOrders as $order): ?>
                             <tr>
                                 <td><?= $order['id'] ?></td>
-                                <td><?= htmlspecialchars($order['user_name']) ?></td>
+                                <td><?= htmlspecialchars($order['user_name'] ?? 'Guest') ?></td>
                                 <td><?= number_format($order['total'], 2) ?> RON</td>
                                 <td>
                                     <?php

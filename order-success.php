@@ -1,23 +1,32 @@
 <?php
-$pageTitle = "Order Placed!";
-require_once 'includes/header.php';
+session_start();
+require_once 'includes/db.php';
 
 if(!isset($_GET['id'])) {
-    header('Location: index.php');
+    header('Location: ' . BASE_URL . 'index.php');
     exit;
 }
 
 $orderId = (int)$_GET['id'];
+$user_id = $_SESSION['user_id'] ?? null;
 
-// Ia detaliile de ordine
-$stmt = $pdo->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ?");
-$stmt->execute([$orderId, $_SESSION['user_id']]);
+// Suport si pentru guest
+if($user_id) {
+    $stmt = $pdo->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ?");
+    $stmt->execute([$orderId, $user_id]);
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM orders WHERE id = ?");
+    $stmt->execute([$orderId]);
+}
 $order = $stmt->fetch();
 
 if(!$order) {
-    header('Location: index.php');
+    header('Location: ' . BASE_URL . 'index.php');
     exit;
 }
+
+$pageTitle = "Comanda Plasată!";
+require_once 'includes/header.php';
 ?>
 
 <div class="text-center py-5">
