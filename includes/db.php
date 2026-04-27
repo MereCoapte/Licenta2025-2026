@@ -13,7 +13,7 @@ $user   = $_ENV['DB_USER']  ?? getenv('DB_USER')  ?? 'root';
 $port   = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?? '3306';
 $pass   = $_ENV['DB_PASS']  ?? getenv('DB_PASS')  ?? '';
 
-define('BASE_URL', $_ENV['BASE_URL'] ?? getenv('BASE_URL') ?? '/Ecommerce_site/');
+define('BASE_URL', $_ENV['BASE_URL'] ?? getenv('BASE_URL') ?? 'https://markethub-licenta.onrender.com/');
 try {
     $pdo = new PDO(
     'mysql:host=' . $host .
